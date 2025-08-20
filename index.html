@@ -6,58 +6,23 @@
   <title>Pickaxe iFrame Wrapper</title>
   <meta name="robots" content="noindex" />
   <style>
-    html, body {
-      height:100%;
-      margin:0;
-      background:#0b0b0b;
-      color:#fff;
-      font-family:Inter,system-ui,Arial;
-    }
-    .wrap {
-      min-height:100dvh;
-      display:flex;
-      flex-direction:column;
-    }
-    .slot {
-      flex:1;
-      display:flex;
-      align-items:stretch;
-      justify-content:center;
-    }
-    #mount {
-      flex:1;
-      width:100%;
-      max-width:100%;
-    }
-    .err {
-      padding:16px;
-      color:#ffb3b3;
-      background:#2b0000;
-      border:1px solid #551010;
-      border-radius:12px;
-      margin:16px;
-    }
-    @media (min-width: 1024px) {
-      .slot { padding: 6px; }
-    }
+    html, body {height:100%;margin:0;background:#0b0b0b;color:#fff;font-family:Inter,system-ui,Arial}
+    .wrap {min-height:100dvh;display:flex;flex-direction:column}
+    .slot {flex:1;display:flex;align-items:stretch;justify-content:center}
+    #mount {flex:1;width:100%;max-width:100%}
+    .err {padding:16px;color:#ffb3b3;background:#2b0000;border:1px solid #551010;border-radius:12px;margin:16px}
+    @media (min-width:1024px){.slot{padding:6px}}
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="slot"><div id="mount"></div></div>
-  </div>
+  <div class="wrap"><div class="slot"><div id="mount"></div></div></div>
 
   <script>
-    // Deployment-ID aus URL, z.B. ?id=deployment-ddea6f23-ac92-4415-b685-8e9afd6bcea2
     const params = new URLSearchParams(location.search);
     let id = (params.get('id') || '').trim();
-
-    // Falls nur UUID übergeben wird → Präfix ergänzen
     if (id && !id.startsWith('deployment-')) id = 'deployment-' + id;
 
-    // Validierung (deployment- + UUIDv4)
-    const ok = /^deployment-[a-f0-9-]{36}$/i.test(id);
-    if (!ok) {
+    if (!/^deployment-[a-f0-9-]{36}$/i.test(id)) {
       document.body.insertAdjacentHTML('beforeend', `
         <div class="err">
           Fehlender/ungültiger Parameter <code>?id=deployment-UUID</code>.<br>
@@ -66,13 +31,10 @@
       throw new Error('Missing deployment id');
     }
 
-    // Mount-Container füllen
-    const mount = document.getElementById('mount');
     const div = document.createElement('div');
-    div.id = id; // z.B. "deployment-…"
-    mount.appendChild(div);
+    div.id = id;
+    document.getElementById('mount').appendChild(div);
 
-    // Pickaxe Bundle laden
     const s = document.createElement('script');
     s.src = "https://studio.pickaxe.co/api/embed/bundle.js";
     s.defer = true;
