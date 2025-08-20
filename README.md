@@ -11,3 +11,4 @@ Minimaler Wrapper, um Pickaxe-Deployments per iFrame/URL einzubetten.
 **UUID allein möglich:** `?id=<UUID>` wird automatisch zu `deployment-<UUID>` ergänzt.
 
 **Beispiel:**
+https://pickaxe.eudemonia-coaching.de/?id=deployment-ddea6f23-ac92-4415-b685-8e9afd6bcea2
